@@ -37,23 +37,27 @@ class Estacionamento:
     def remover_carro(self,placa_carro,vaga_id):
         self.carro_para_vaga.remove({vaga_id, placa_carro})
         self.total_de_vagas_livres_carro +=1
+        print(f'Carro de placa {placa_carro} foi removido, Vaga {vaga_id} está livre ')
 
 
     def remover_moto(self,placa_moto,vaga_id):
 
         self.moto_para_vaga.remove({vaga_id, placa_moto})
         self.total_de_vagas_livres_moto +=1
+        print(f'Moto de placa {placa_moto} foi removido, Vaga {vaga_id} está livre ')
 
     def estado_estacionamento(self):
         if(self.total_vagas_livres_carro >0): 
 
             print(f'Vagas para carro disponíveis: {self.total_vagas_livres_carro}')
         else:
-            print("Estacionamento de carro lotado!")
+            print('Estacionamento de carro lotado!')
 
 
-        if(self.total_vagas_livres_moto >0): 
+        if(self.total_vagas_livres_moto > 0): 
 
             print(f'Vagas para moto disponíveis: {self.total_vagas_livres_moto}')
-        else:
-            print("Estacionamento de carro lotado!")
+        else:             
+            print('Estacionamento de carro lotado!')
+
+
