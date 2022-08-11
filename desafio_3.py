@@ -12,7 +12,8 @@
 # Para modelar seu sistema, utilize obrigatoriamente os conceitos "classe", "herança" e "polimorfismo".
 # Opcionalmente, você pode também utilizar "propriedades", "encapsulamento" e "classe abstrata".'''
 from http import client
-import uuid as random_id  
+import uuid as random_id
+from datetime import datetime  
 
 class Cliente:
     def __init__(self,nome, telefone, renda):
@@ -20,56 +21,78 @@ class Cliente:
         self.nome = nome
         self.telefone = telefone
         self.renda_mensal = renda 
-
-class Cliente_Mulher(Cliente):
-    def __init__(self,nome, telefone, renda):
-        self.nome = nome
-        self.telefone = telefone
-        self.renda_mensal = renda 
-         self.__cheque_especial 
-
-
-      
-    def valor_cheque(self):
-        self.__cheque_especial = True
-
-
-class Conta_corrente:
-    def __init__(self):
+        self.__cheque_especial  = 0
+class Conta_corrente(Cliente):
+    def __init__(self,nome,telefone,renda):
+        super().__init__(nome,telefone,renda)
         self.numero_conta = random_id.uuid4
         self.titular = []
-        self.__saldo = 0
+        self.__saldo = renda
         self.__operacoes = []
-       
-    
+        self.genero= False
 
-    # colocar os getters e setters
-
-  
+    @property
+    def get_operacoes(self):
+        return self.__operacoes
+ 
+    def set_operacao(self,operacao):
+        self.__operacoes = operacao
 
     def consulta(self):
         print(f'Saldo disponível : {self.__saldo}')
 
-    def operacoes(self,operacao):
+    def lista_operacoes(self,operacao):
         self.__operacoes.append(operacao)
 
     def saque(self,valor_saque):
-        self.__saldo = self.__saldo - valor_saque
-        operacoes('saque')
-        print('Saque realizado com sucesso!')
-    
-    
+        if(valor_saque < self.__saldo):
+            self.__saldo = self.__saldo - valor_saque
+            self.lista_operacoes({f'Saque: {valor_saque}',datetime.now().strftime('%d/%m/%Y %H:%M')})
+            print('Saque realizado com sucesso!')
+        else:
+            print('Saldo insuficiente!')
+       
     def deposito(self,valor_deposito):
         self.__saldo = self.__saldo + valor_deposito
-        operacoes('deposito')
+        self.lista_operacoes({f'Desposito: {valor_deposito}',datetime.now().strftime('%d/%m/%Y %H:%M')})
         print('Deposito realizado com sucesso!')
     
-    def add_titular(self, cliente : Cliente):
-        if cliente.id not in self.titular:
-            self.titular.append(cliente.id)
+    def add_titular(self):
+        if self.id not in self.titular:
+            self.titular.append(self.id)
+            print(f'O cliente {self.nome} foi adcionado com sucesso! ')
         else: 
-            print(f'O cliente {cliente.nome}já é títular da conta ')
-    
+            print(f'O cliente {self.nome}já é títular da conta ')
+
+    def extrato(self):
+        print(self.__operacoes)
+class Conta_especial(Conta_corrente):
+    def __init__(self,nome,telefone,renda):
+        super().__init__(nome,telefone,renda)
+        self.genero= True
+        self.__saldo = renda
+        self.__cheque_especial = self.renda_mensal
+
+    def saque(self,valor_saque):
+        if(valor_saque < self.__saldo):
+            self.__saldo = self.__saldo - valor_saque
+            self.lista_operacoes({f'Saque: {valor_saque}',datetime.now().strftime('%d/%m/%Y %H:%M')})
+            print('Saque realizado com sucesso!')
+        else:
+            self.__cheque_especial = valor_saque - self.__cheque_especial
+            print('Saque realizado com sucesso!')
+
+    def consulta(self):
+        print(f'Saldo disponível : {self.__saldo}, Cheque Especial: {self.__cheque_especial}')
+
+c = Cliente('Maria', '9023234', 3000)
+conta = Conta_especial(c.nome, c.telefone, c.renda_mensal)
+conta.add_titular()
+conta.deposito(10000)
+conta.saque(100)
+conta.consulta()
+conta.extrato()
+
 
 
 
