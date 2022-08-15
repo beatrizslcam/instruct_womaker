@@ -1,0 +1,56 @@
+import json
+from sys import float_repr_style
+from typing import Optional, Union
+from fastapi import FastAPI, Header
+from pydantic import BaseModel 
+
+class Item(BaseModel):
+  #  id: int
+   # descricao: str
+    #valor: float
+    id: int
+    quantidade: int
+    valor: float
+
+class Bd():
+    def __init__():
+        banco= []
+
+
+app = FastAPI()
+bd = Bd()
+
+#endpoints se refere a duas pontas que estão se comunicando por protocolos através da troca de dados
+#get = pegar, pot: enviar
+
+'''
+#leitura do header: Quando é legal: para tokens,logins, etc.
+@app.post("/")
+def read_root(user_agent: Optional [str] = Header(None)): 
+    return {"user_agent": user_agent}
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int,p:bool, q: Union[str, None] = None):
+    return {"item_id": item_id, "q": q}
+
+@app.post("/item")
+def add_item(novo_item: Item):
+    return novo_item
+'''
+
+@app.post("/") # head # endpoint
+def read_root(user_agent: Optional [str] = Header(None)):
+    return {"user_agent": user_agent}
+
+
+@app.get("/items/{id}")
+def read_item(quantidade: int, valor:float, q: Union[str, None] = None):
+    return {"item_id": id, "quantidade": quantidade, "Valor": valor, "q": q}
+
+@app.post("/item")
+def add_item(novo_item:Item):
+    
+    json -> item -> banco
+
+    bd.banco.append(novo_item)
+    return bd.banco
