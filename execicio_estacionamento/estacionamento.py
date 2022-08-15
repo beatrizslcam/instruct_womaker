@@ -20,7 +20,6 @@ class Estacionamento:
         else:
             print("Estacionamento de Carro Lotado!")
         
-    
     def estacionar_moto(self,placa_moto,vaga_id):
 
         if(self.total_vagas_livres_moto > 0):
@@ -33,12 +32,10 @@ class Estacionamento:
         else:
             print("Estacionamento de moto lotado!")
         
-
     def remover_carro(self,placa_carro,vaga_id):
         self.carro_para_vaga.remove({vaga_id, placa_carro})
         self.total_de_vagas_livres_carro +=1
         print(f'Carro de placa {placa_carro} foi removido, Vaga {vaga_id} está livre ')
-
 
     def remover_moto(self,placa_moto,vaga_id):
 

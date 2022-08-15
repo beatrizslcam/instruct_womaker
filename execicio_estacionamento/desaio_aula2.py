@@ -3,11 +3,6 @@ from estacionamento import Estacionamento
 import vaga as Vaga
 
 
-
-
-
-
-
 def menu_estacionar(veiculo):
 
     placa = input('Digite a placa:')
